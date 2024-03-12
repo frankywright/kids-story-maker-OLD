@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 const Navbar = () => {
   return (
     <header className="border-b">
-      <nav className="max-w-7xl mx-auto flex justify-between items-center p-3">
+      <nav className="max-w-7xl mx-auto flex justify-between items-center py-3 px-4">
         <Link href="/">
           <h2 className="font-bold text-lg">KidsStoryMaker</h2>
         </Link>
