@@ -1,3 +1,4 @@
+import WaveFormAudio from "@/components/WaveFormAudio";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
@@ -10,14 +11,14 @@ export default function Home() {
         <h1 className="font-bold text-4xl lg:text-6xl">
           Kid&#39;s Bedtime Story
         </h1>
-        <p className="text-muted-foreground max-w-96 mx-auto">
+        <p className="text-muted-foreground max-w-[500px] mx-auto">
           Stories, images and audio generated with the OpenAI Api. Try making
           your own stories
         </p>
       </section>
       <section>
         <Card className="overflow-hidden">
-          <CardContent className="grid sm:grid-cols-[1.5fr_1fr] p-0">
+          <CardContent className="grid sm:grid-cols-2 p-0 gap-4">
             <Image
               className="w-full object-cover h-full"
               src="/cover.png"
@@ -37,7 +38,8 @@ export default function Home() {
                 velit nulla adipisci incidunt deserunt ad natus, a illum cum
                 laborum perferendis. Ab voluptatum ea cupiditate cumque dolores!
               </CardDescription>
-              <Button className="mt-4">Listen Now 3:42</Button>
+              {/* <Button className="mt-4">Listen Now 3:42</Button> */}
+              <WaveFormAudio />
             </div>
           </CardContent>
         </Card>

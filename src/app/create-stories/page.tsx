@@ -73,11 +73,11 @@ const dummyPrompts = [
 ];
 
 const CreateStories = () => {
-    // const [prompt, setPrompt] = useState("")
+  // const [prompt, setPrompt] = useState("")
   const [input, setInput] = useState("");
 
   return (
-    <section className="mt-20 max-w-7xl mx-auto flex flex-col gap-8">
+    <section className="mt-8 lg:mt-20 max-w-7xl mx-auto flex flex-col gap-8 px-4">
       <PromptForm
         onSubmit={async (value) => {
           console.log(value);
@@ -87,7 +87,7 @@ const CreateStories = () => {
         isLoading={false}
       />
 
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
         {dummyPrompts.map((prompt) => (
           <button onClick={() => setInput(prompt.desc)} key={prompt.id}>
             <Card className="group">
