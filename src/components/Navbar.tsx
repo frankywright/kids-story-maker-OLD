@@ -14,7 +14,7 @@ const Navbar = () => {
           <Link href="/">
             <Button variant="link">All Stories</Button>
           </Link>
-          <Link href="/create">
+          <Link href="/create-stories">
             {" "}
             <Button variant="link">Create Stories</Button>
           </Link>
