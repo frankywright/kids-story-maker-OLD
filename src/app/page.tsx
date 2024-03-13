@@ -1,4 +1,7 @@
-import WaveFormAudio from "@/components/WaveFormAudio";
+import dynamic from "next/dynamic";
+const WaveFormAudio = dynamic(() => import("@/components/WaveFormAudio"), {
+  ssr: false,
+});
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
