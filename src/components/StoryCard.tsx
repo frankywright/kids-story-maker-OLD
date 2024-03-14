@@ -26,7 +26,7 @@ const StoryCard = ({
           width={400}
         />
         <div className="absolute bottom-0 left-0 w-full text-left p-4 bg-background/80 sm:translate-y-full sm:group-hover:translate-y-0 transition-transform flex justify-between gap-2">
-          <div>
+          <div className="truncate">
             <h2 className="uppercase font-semibold truncate">{title}</h2>
             <p className="text-muted-foreground">{duration}</p>
           </div>
