@@ -176,6 +176,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const handler = () => {
+      console.log("foo");
       setIsPlaying(!ref.current?.paused);
     };
 
@@ -194,7 +195,7 @@ export default function Page({ params }: { params: { id: string } }) {
     enabled: !!params.id,
   });
 
-  console.log(data);
+  // console.log(data);
 
   if (error) {
     return (
@@ -206,6 +207,9 @@ export default function Page({ params }: { params: { id: string } }) {
   if (!isPending && (data as any).data.length === 0) {
     return <div className="max-w-7xl mx-auto my-8 p-4">No data found!</div>;
   }
+
+  // console.log(ref.current?.paused);
+  console.log(isPlaying);
 
   return (
     <section className="max-w-7xl mx-auto px-4 mb-4">
@@ -231,20 +235,26 @@ export default function Page({ params }: { params: { id: string } }) {
               <CardContent className="relative h-full p-0">
                 {!imageLoaded && (
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <SymbolIcon />
+                    <SymbolIcon className="animate-spin" />
                   </div>
                 )}
-                {imageLoaded && !isPlaying && (
-                  <div
-                    onClick={() => handleTogglePlayback(ref.current)}
-                    className="bg-gray-900 cursor-pointer p-6 rounded-full bg-opacity-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                {imageLoaded && (
+                  <button
+                    onClick={() => {
+                      handleTogglePlayback(ref.current);
+                      setIsPlaying(!ref.current?.paused as boolean);
+                    }}
+                    className="bg-gray-900/25 cursor-pointer p-6 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
-                    <PlayIcon />
-                  </div>
+                    {isPlaying ? <PauseIcon /> : <PlayIcon />}
+                  </button>
                 )}
                 <Image
                   onLoad={() => setImageLoaded(true)}
-                  onClick={() => handleTogglePlayback(ref.current)}
+                  onClick={() => {
+                    handleTogglePlayback(ref.current);
+                    setIsPlaying(!ref.current?.paused as boolean);
+                  }}
                   src={(data as any).data[0].image_url}
                   className="object-contain mx-auto"
                   alt=""

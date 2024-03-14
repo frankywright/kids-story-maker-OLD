@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
 import RootProvider from "@/providers/RootProvider";
+import Footer from "@/components/Footer";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={cn(inter.className, "min-h-screen")}>
         <RootProvider>
           <ThemeProvider
             attribute="class"
@@ -29,7 +31,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Navbar />
-            <main>{children}</main>
+            <main className="min-h-screen">{children}</main>
+            <Footer />
           </ThemeProvider>
         </RootProvider>
       </body>

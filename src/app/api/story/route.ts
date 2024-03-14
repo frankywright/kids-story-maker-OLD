@@ -103,5 +103,3 @@ export const POST = async (req: Request) => {
     return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 };
-
-
