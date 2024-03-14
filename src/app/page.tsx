@@ -1,13 +1,34 @@
-import dynamic from "next/dynamic";
-const WaveFormAudio = dynamic(() => import("@/components/WaveFormAudio"), {
-  ssr: false,
-});
+"use client";
+import StoryCard from "@/components/StoryCard";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { supabase } from "@/lib/supabase";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
+  const { isPending, error, data } = useQuery({
+    queryKey: ["all-stories"],
+    queryFn: () => supabase.from("story").select("*"),
+  });
+
+  console.log(data);
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto my-8 p-4">
+        Something went wrong! Try again
+      </div>
+    );
+  }
+
+  if (!isPending && (data as any).data.length === 0) {
+    return <div className="max-w-7xl mx-auto my-8 p-4">No data found!</div>;
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4">
       <section className="my-10 text-center flex flex-col gap-2">
@@ -20,57 +41,51 @@ export default function Home() {
         </p>
       </section>
       <section>
-        <Card className="overflow-hidden">
-          <CardContent className="grid sm:grid-cols-2 p-0 gap-4">
-            <Image
-              className="w-full object-cover h-full"
-              src="/cover.png"
-              alt="cover image"
-              width={500}
-              height={500}
-            />
-            <div className="p-4">
-              <div className="p-0 mb-2 font-bold flex items-center gap-2">
-                <h2>TONIGHT&#39;S STORY</h2> <Badge>Now Playing</Badge>
-              </div>
-              <CardDescription className="">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet
-                repudiandae minus esse fugit sed enim hic consectetur ratione,
-                fugiat iusto expedita ut harum soluta! Earum error sint
-                accusamus odit! Officiis facilis ab quod porro cumque, quam ipsa
-                velit nulla adipisci incidunt deserunt ad natus, a illum cum
-                laborum perferendis. Ab voluptatum ea cupiditate cumque dolores!
-              </CardDescription>
-              {/* <Button className="mt-4">Listen Now 3:42</Button> */}
-              <WaveFormAudio />
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-10">
-        {Array.from({ length: 10 }).map((_, i) => (
-          <Card key={i} className="overflow-hidden group">
-            <CardContent className="p-0 relative">
+        {isPending ? (
+          <Skeleton className="h-60 w-full" />
+        ) : (
+          <Card className="overflow-hidden">
+            <CardContent className="grid sm:grid-cols-2 p-0 gap-4">
               <Image
-                className="w-full object-cover"
-                src="/cover.png"
-                alt=""
-                height={300}
-                width={400}
+                className="w-full object-cover max-h-[370px]"
+                src={(data as any).data[0].image_url}
+                alt={(data as any).data[0].title}
+                width={500}
+                height={500}
               />
-              <div className="absolute bottom-0 left-0 w-full text-left p-4 bg-background/80 sm:translate-y-full sm:group-hover:translate-y-0 transition-transform flex justify-between">
-                <div>
-                  <h2 className="uppercase font-semibold">
-                    Robinhood Bedtime Story
-                  </h2>
-                  <p className="text-muted-foreground">3.43</p>
+              <div className="p-4">
+                <div className="p-0 mb-2 font-bold flex items-center gap-2">
+                  <h2>TONIGHT&#39;S STORY</h2> <Badge>Featured</Badge>
                 </div>
-                <Button>Play</Button>
+                <CardDescription className="">
+                  {(data as any).data[0].story_text.length > 500
+                    ? (data as any).data[0].story_text.slice(0, 500) + " ..."
+                    : (data as any).data[0].story_text}
+                </CardDescription>
+                <Link
+                  className={buttonVariants({
+                    variant: "default",
+                    className: "my-4",
+                  })}
+                  href={`/stories/${(data as any).data[0].id}`}
+                >
+                  Listen Now
+                </Link>
               </div>
             </CardContent>
           </Card>
-        ))}
+        )}
+      </section>
+
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-10">
+        {isPending
+          ? Array.from({ length: 10 }).map((_, i) => (
+              <Skeleton key={i} className="h-40" />
+            ))
+          : (data as any).data.map((story: any) => (
+              <StoryCard key={story.id} {...story} />
+            ))}
+       
       </section>
     </div>
   );
