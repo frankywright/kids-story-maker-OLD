@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/lib/supabase";
@@ -195,7 +201,7 @@ export default function Page({ params }: { params: { id: string } }) {
     enabled: !!params.id,
   });
 
-  // console.log(data);
+  console.log(data);
 
   if (error) {
     return (
@@ -223,7 +229,7 @@ export default function Page({ params }: { params: { id: string } }) {
         )}
       </div>
 
-      <div className="max-h-[500px]">
+      <div>
         {isPending ? (
           <>
             <Skeleton className="w-full h-[300px] rounded-md my-4" />
@@ -256,20 +262,32 @@ export default function Page({ params }: { params: { id: string } }) {
                     setIsPlaying(!ref.current?.paused as boolean);
                   }}
                   src={(data as any).data[0].image_url}
-                  className="object-contain mx-auto"
+                  className="object-contain mx-auto rounded-xl sm:rounded-none"
                   alt=""
-                  width={600}
+                  width={500}
                   height={500}
                 />
               </CardContent>
             </Card>
-            <Card className="p-4 mt-4">
-              <AudioPlayer
-                ref={ref}
-                story={{
-                  audio: (data as any).data[0].audio_url,
-                }}
-              />
+            <div>
+              <Card className="mt-4 p-4">
+                <AudioPlayer
+                  ref={ref}
+                  story={{
+                    audio: (data as any).data[0].audio_url,
+                  }}
+                />
+              </Card>
+            </div>
+            <Card className="mt-4">
+              <CardContent>
+                <CardHeader className="px-0 pb-2 pt-4">
+                  <CardTitle>{(data as any).data[0].title}</CardTitle>
+                </CardHeader>
+                <CardDescription>
+                  <p>{(data as any).data[0].story_text}</p>
+                </CardDescription>
+              </CardContent>
             </Card>
           </>
         )}
