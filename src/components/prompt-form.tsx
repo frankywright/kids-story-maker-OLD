@@ -48,7 +48,7 @@ export function PromptForm({ onSubmit, prompt, setPrompt, isLoading }: Props) {
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Write a prompt to generate a story..."
           spellCheck={false}
-          className="min-h-[50px] w-full resize-none bg-transparent px-4 py-4 focus-within:outline-none sm:text-sm"
+          className="min-h-[50px] w-full resize-none bg-transparent px-4 py-4 focus-within:outline-none text-sm"
         />
         <div className="absolute right-4 top-1/2 -translate-y-1/2">
           {}

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { CardContent } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/client";
 
 import React from "react";

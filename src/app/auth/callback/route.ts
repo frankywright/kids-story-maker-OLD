@@ -9,11 +9,14 @@ export async function GET(request: Request) {
   const code = requestUrl.searchParams.get("code");
   const origin = requestUrl.origin;
 
+  console.log("originnnnnnn");
+  console.log(origin);
+
   if (code) {
     const supabase = createClient();
     await supabase.auth.exchangeCodeForSession(code);
   }
 
   // URL to redirect to after sign up process completes
-  return NextResponse.redirect(`${origin}`);
+  return NextResponse.redirect(`${process.env.REDIRECT_URL}`);
 }

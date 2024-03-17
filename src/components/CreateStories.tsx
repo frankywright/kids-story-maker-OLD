@@ -126,7 +126,7 @@ const CreateStories = () => {
         isLoading={mutation.isPending}
       />
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 mt-10">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 mt-6 md:mt-10 mb-4">
         {dummyPrompts.map((prompt) => (
           <button
             disabled={mutation.isPending}

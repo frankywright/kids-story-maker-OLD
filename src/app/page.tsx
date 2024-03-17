@@ -16,8 +16,6 @@ export default function Home() {
     queryFn: () => supabase.from("story").select("*"),
   });
 
-  console.log(data);
-
   if (error) {
     return (
       <div className="max-w-7xl mx-auto my-8 p-4">
