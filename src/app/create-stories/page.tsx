@@ -17,7 +17,7 @@ const Page = async () => {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return redirect("/login");
+    return redirect("/signin");
   }
 
   return (

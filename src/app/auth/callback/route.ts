@@ -18,5 +18,5 @@ export async function GET(request: Request) {
   }
 
   // URL to redirect to after sign up process completes
-  return NextResponse.redirect(`${process.env.REDIRECT_URL}`);
+  return NextResponse.redirect(`${process.env.REDIRECT_URL}/create-stories`);
 }

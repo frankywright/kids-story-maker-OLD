@@ -52,9 +52,9 @@ const MobileNavbar = ({ user }: { user: any }) => {
               size: "sm",
               className: "mb-3 mt-1",
             })}
-            href="/login"
+            href="/signin"
           >
-            Login
+            Sign in
           </Link>
         )}
 

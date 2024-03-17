@@ -38,9 +38,9 @@ const Navbar = async () => {
           ) : (
             <Link
               className={buttonVariants({ variant: "default", size: "sm" })}
-              href="/login"
+              href="/signin"
             >
-              Login
+              Sign in
             </Link>
           )}
 
