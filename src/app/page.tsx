@@ -5,6 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -85,7 +86,6 @@ export default function Home() {
           : (data as any).data.map((story: any) => (
               <StoryCard key={story.id} {...story} />
             ))}
-       
       </section>
     </div>
   );

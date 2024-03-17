@@ -5,8 +5,16 @@ import { Button, buttonVariants } from "./ui/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Separator } from "./ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import SignOutButton from "./SignOutButton";
+import { createClient } from "@/utils/supabase/server";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <header className="border-b">
       <nav className="max-w-7xl mx-auto flex justify-between items-center py-3 px-4">
@@ -43,10 +51,23 @@ const Navbar = () => {
           <Link href="/">
             <Button variant="link">All Stories</Button>
           </Link>
-          <Link href="/create-stories">
-            {" "}
-            <Button variant="link">Create Stories</Button>
-          </Link>
+          {user ? (
+            <>
+              <Link href="/create-stories">
+                {" "}
+                <Button variant="link">Create Stories</Button>
+              </Link>
+              <SignOutButton />
+            </>
+          ) : (
+            <Link
+              className={buttonVariants({ variant: "default", size: "sm" })}
+              href="/login"
+            >
+              Login
+            </Link>
+          )}
+
           <ModeToggle />
         </div>
       </nav>

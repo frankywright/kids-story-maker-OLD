@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.className, "min-h-screen")}>
+      <body className={cn(inter.className, "flex flex-col min-h-screen")}>
         <RootProvider>
           <ThemeProvider
             attribute="class"
@@ -31,7 +31,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Navbar />
-            <main className="min-h-screen">{children}</main>
+            <main className="grow">{children}</main>
             <Footer />
           </ThemeProvider>
         </RootProvider>
