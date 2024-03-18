@@ -28,22 +28,20 @@ const MobileNavbar = ({ user }: { user: any }) => {
             All Stories
           </Button>
         </Link>
+        <Link
+          href="/create-story"
+          onClick={() => setIsOpenSheet(!isOpenSheet)}
+        >
+          {" "}
+          <Button variant="link" className="pl-0">
+          Create Story
+          </Button>
+        </Link>
         {user ? (
-          <>
-            <Link
-              href="/create-stories"
-              onClick={() => setIsOpenSheet(!isOpenSheet)}
-            >
-              {" "}
-              <Button variant="link" className="pl-0">
-                Create Stories
-              </Button>
-            </Link>
-            <SignOutButton
-              onCloseSheet={() => setIsOpenSheet(!isOpenSheet)}
-              className="mb-4 mt-2"
-            />
-          </>
+          <SignOutButton
+            onCloseSheet={() => setIsOpenSheet(!isOpenSheet)}
+            className="mb-4 mt-2"
+          />
         ) : (
           <Link
             onClick={() => setIsOpenSheet(!isOpenSheet)}

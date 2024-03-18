@@ -32,7 +32,7 @@ const StoryCard = ({
           </div>
           <Link
             className={buttonVariants({ variant: "default" })}
-            href={`/stories/${id}`}
+            href={`/story/${id}`}
           >
             Listen Now
           </Link>

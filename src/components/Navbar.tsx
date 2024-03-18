@@ -23,18 +23,20 @@ const Navbar = async () => {
         <div className="md:hidden">
           <MobileNavbar user={user} />
         </div>
-        <div className="items-center gap-4 hidden md:flex">
-          <Link href="/">
-            <Button variant="link">All Stories</Button>
+        <div className="items-center hidden md:flex gap-6">
+          <Link className="p-0 m-0" href="/">
+            <Button className="p-0 m-0" variant="link">
+              All Stories
+            </Button>
+          </Link>
+          <Link className="p-0 m-0" href="/create-story">
+            {" "}
+            <Button className="p-0 m-0" variant="link">
+              Create Story
+            </Button>
           </Link>
           {user ? (
-            <>
-              <Link href="/create-stories">
-                {" "}
-                <Button variant="link">Create Stories</Button>
-              </Link>
-              <SignOutButton />
-            </>
+            <SignOutButton />
           ) : (
             <Link
               className={buttonVariants({ variant: "default", size: "sm" })}

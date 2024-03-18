@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { PromptForm } from "./prompt-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { nanoid } from "nanoid";
 import { ExclamationTriangleIcon, SymbolIcon } from "@radix-ui/react-icons";
@@ -14,6 +14,9 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
+import { Skeleton } from "./ui/skeleton";
+import StoryCard from "./StoryCard";
 
 const dummyPrompts = [
   {
@@ -73,11 +76,19 @@ const dummyPrompts = [
   },
 ];
 
-const CreateStories = () => {
+const CreateStory = ({ email }: { email: string }) => {
   const [prompt, setPrompt] = React.useState("");
 
+  const { isPending, error, data } = useQuery({
+    queryKey: ["createdStory", email],
+    queryFn: () => supabase.from("stories").select().eq("created_by", email),
+    enabled: !!email,
+  });
+
+  console.log(data);
+
   const mutation = useMutation({
-    mutationFn: (newPrompt: { id: string; prompt: string }) => {
+    mutationFn: (newPrompt: { id: string; prompt: string; email: string }) => {
       return axios.post("/api/story", newPrompt);
     },
   });
@@ -91,7 +102,7 @@ const CreateStories = () => {
           <AlertTitle>Generating...</AlertTitle>
           <AlertDescription>
             Our AI agent is busy generating a story, image and audio for you.
-            <br/>
+            <br />
             It might take a while
           </AlertDescription>
         </Alert>
@@ -109,11 +120,11 @@ const CreateStories = () => {
         onSubmit={(prompt) => {
           mutation.reset();
           mutation.mutate(
-            { id: nanoid(), prompt },
+            { id: nanoid(), prompt, email },
             {
               onSuccess: (newData: any) => {
                 console.log(newData);
-                router.push(`/stories/${newData.data.data[0].id}`);
+                router.push(`/story/${newData.data.data[0].id}`);
               },
               onError: (error) => {
                 console.log(error);
@@ -125,29 +136,52 @@ const CreateStories = () => {
         setPrompt={setPrompt}
         isLoading={mutation.isPending}
       />
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 mt-6 md:mt-10 mb-4">
-        {dummyPrompts.map((prompt) => (
-          <button
-            disabled={mutation.isPending}
-            onClick={() => setPrompt(prompt.desc)}
-            key={prompt.id}
-          >
-            <Card className="group">
-              <CardContent className="p-4">
-                <CardHeader className="p-0 text-left group-hover:translate-x-1 transition-transform">
-                  {prompt.title}
-                </CardHeader>
-                <CardDescription className="text-left group-hover:translate-x-1 transition-transform">
-                  {prompt.desc}
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </button>
-        ))}
+      <div className="mt-6 md:mt-10 mb-4">
+        <h2 className="mb-2 font-bold text-xl">Example prompts:</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 ">
+          {dummyPrompts.map((prompt) => (
+            <button
+              disabled={mutation.isPending}
+              onClick={() => setPrompt(prompt.desc)}
+              key={prompt.id}
+            >
+              <Card className="group">
+                <CardContent className="p-4">
+                  <CardHeader className="p-0 text-left group-hover:translate-x-1 transition-transform">
+                    {prompt.title}
+                  </CardHeader>
+                  <CardDescription className="text-left group-hover:translate-x-1 transition-transform">
+                    {prompt.desc}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </button>
+          ))}
+        </div>
       </div>
+
+      <section className="mt-6">
+        <h2 className=" font-bold text-xl mb-2">Your created stories</h2>
+        {error ? (
+          <p>Something went wrong! Please try again</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            {isPending ? (
+              Array.from({ length: 5 }).map((_, i) => (
+                <Skeleton key={i} className="h-40" />
+              ))
+            ) : (data as any).data.length === 0 ? (
+              <p className="text-muted-foreground">You haven&#39;t created any stories yet!</p>
+            ) : (
+              (data as any).data.map((story: any) => (
+                <StoryCard key={story.id} {...story} />
+              ))
+            )}
+          </div>
+        )}
+      </section>
     </div>
   );
 };
 
-export default CreateStories;
+export default CreateStory;

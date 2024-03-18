@@ -5,7 +5,11 @@ import axios from "axios";
 
 export const POST = async (req: Request) => {
   try {
-    const body = (await req.json()) as { prompt: string; id: string };
+    const body = (await req.json()) as {
+      prompt: string;
+      id: string;
+      email: string;
+    };
     console.log(body);
 
     const {
@@ -36,7 +40,7 @@ export const POST = async (req: Request) => {
 
     const imageData = await axios.get(imageUrl, {
       responseType: "arraybuffer",
-      // timeout: 300000,
+      timeout: 600000,
     });
 
     const imageBuffer = Buffer.from(imageData.data);
@@ -62,7 +66,7 @@ export const POST = async (req: Request) => {
     }
 
     const { data, error } = await supabase
-      .from("story")
+      .from("stories")
       .insert([
         {
           user_id: body.id,
@@ -74,6 +78,7 @@ export const POST = async (req: Request) => {
           duration: 3.0,
           audio_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/story/${audioRes.data.path}`,
           image_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/story/${imageRes.data.path}`,
+          created_by: body.email,
         },
       ])
       .select();

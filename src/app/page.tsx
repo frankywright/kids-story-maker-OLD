@@ -12,9 +12,10 @@ import Link from "next/link";
 
 export default function Home() {
   const { isPending, error, data } = useQuery({
-    queryKey: ["all-stories"],
-    queryFn: () => supabase.from("story").select("*"),
+    queryKey: ["stories"],
+    queryFn: () => supabase.from("stories").select("*"),
   });
+  console.log(data);
 
   if (error) {
     return (
@@ -66,7 +67,7 @@ export default function Home() {
                     variant: "default",
                     className: "my-4",
                   })}
-                  href={`/stories/${(data as any).data[0].id}`}
+                  href={`/story/${(data as any).data[0].id}`}
                 >
                   Listen Now
                 </Link>

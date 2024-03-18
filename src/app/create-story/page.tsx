@@ -1,4 +1,4 @@
-import CreateStories from "@/components/CreateStories";
+import CreateStory from "@/components/CreateStory";
 import { createClient } from "@/utils/supabase/server";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -16,13 +16,17 @@ const Page = async () => {
     data: { user },
   } = await supabase.auth.getUser();
 
+  
+
   if (!user) {
     return redirect("/signin");
   }
 
+  console.log(user.email)
+
   return (
     <section className="mt-8 lg:mt-20 max-w-7xl mx-auto flex flex-col gap-8 px-4">
-      <CreateStories />
+      <CreateStory email={user.email as string} />
     </section>
   );
 };

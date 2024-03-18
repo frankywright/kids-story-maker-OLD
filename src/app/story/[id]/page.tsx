@@ -197,7 +197,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
   const { isPending, error, data } = useQuery({
     queryKey: ["story", params.id],
-    queryFn: () => supabase.from("story").select().eq("id", params.id),
+    queryFn: () => supabase.from("stories").select().eq("id", params.id),
     enabled: !!params.id,
   });
 
