@@ -18,9 +18,5 @@ export async function GET(request: Request) {
   }
 
   // URL to redirect to after sign up process completes
-  return NextResponse.redirect(
-    `${
-      process.env.NODE_ENV === "development" ? "http://localhost:3000" : origin
-    }/create-story`
-  );
+  return NextResponse.redirect(`${origin}/create-story`);
 }
