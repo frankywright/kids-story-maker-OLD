@@ -33,7 +33,7 @@ export default function Home() {
     <div className="max-w-7xl mx-auto px-4">
       <section className="my-10 text-center flex flex-col gap-2">
         <h1 className="font-bold text-4xl lg:text-6xl">
-          Kid&#39;s Bedtime Story
+          Kid&#39;s Story Maker
         </h1>
         <p className="text-muted-foreground max-w-[500px] mx-auto">
           Stories, images and audio generated with the OpenAI Api. Try making
@@ -55,7 +55,7 @@ export default function Home() {
               />
               <div className="p-4">
                 <div className="p-0 mb-2 font-bold flex items-center gap-2">
-                  <h2>TONIGHT&#39;S STORY</h2> <Badge>Featured</Badge>
+                  <h2>TODAY&#39;S STORY</h2> <Badge>Featured</Badge>
                 </div>
                 <CardDescription className="">
                   {(data as any).data[0].story_text.length > 500
